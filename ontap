@@ -1,0 +1,8 @@
+Thêm xóa sửa cấu trúc:
+ + tên cột, kiểu dữ liệu, ràng buộc (not null, unique
+ 
+Unique: Không trùng lặp, cho phép null
+Primary key: Không trùng lặp, not null
+
+Create/update/drop/delete
+SQL query:
