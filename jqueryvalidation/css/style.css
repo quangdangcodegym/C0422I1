@@ -1,0 +1,9 @@
+.myerror{
+    color: red;
+}
+.myfooter{
+    position: fixed;
+    bottom: 0;
+    background-color: beige;
+    width: 100%;
+}
