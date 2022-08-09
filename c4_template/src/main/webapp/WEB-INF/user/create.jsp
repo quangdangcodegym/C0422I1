@@ -1,6 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -60,7 +61,12 @@
                                                 <span aria-hidden="true">×</span>
                                             </button>
                                             <c:forEach items="${requestScope.errors}" var="e">
-                                                <strong>${e}</strong> </br>
+<%--                                                <strong>${e.key}</strong> </br>--%>
+
+                                                <strong>*Field: ${fn:toUpperCase(e.key)}</strong> </br>
+                                                <c:forEach items="${e.value}" var="item">
+                                                    <span>${item}</span> </br>
+                                                </c:forEach>
                                             </c:forEach>
 
                                         </div>

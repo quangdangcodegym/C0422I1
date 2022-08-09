@@ -118,6 +118,7 @@ public class UserServlet extends HttpServlet {
         if(!constraintViolations.isEmpty()){
 
 
+            //req.setAttribute("errors", getErrorFromContraint(constraintViolations));
             req.setAttribute("errors", getErrorFromContraint(constraintViolations));
             req.setAttribute("user", user);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/user/create.jsp");
@@ -132,12 +133,17 @@ public class UserServlet extends HttpServlet {
 
     }
 
-    private List<String> getErrorFromContraint(Set<ConstraintViolation<User>> constraintViolations) {
-        List<String> errors = new ArrayList<>();
-
+    private HashMap<String, List<String>> getErrorFromContraint(Set<ConstraintViolation<User>> constraintViolations) {
+        HashMap<String, List<String>> hashMap = new HashMap<>();
         for(ConstraintViolation<User> c : constraintViolations){
-            errors.add(c.getMessage());
+            if(hashMap.keySet().contains(c.getPropertyPath().toString())){
+                hashMap.get(c.getPropertyPath().toString()).add(c.getMessage());
+            }else{
+                List<String> listMessages = new ArrayList<>();
+                listMessages.add(c.getMessage());
+                hashMap.put(c.getPropertyPath().toString(), listMessages);
+            }
         }
-        return errors;
+        return hashMap;
     }
 }
