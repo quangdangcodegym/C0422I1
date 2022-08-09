@@ -1,0 +1,5 @@
+Dung jstl co the duyet hashmap
+https://stackoverflow.com/questions/9257240/how-to-iterate-hashmap-using-jstl-foreach-loop
+
+Dung jstl de format UPCASE
+https://www.tutorialspoint.com/jsp/jstl_function_touppercase.htm

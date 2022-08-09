@@ -26,7 +26,7 @@ public class User {
     protected int idcountry;
 
     @NotEmpty(message = "Password not empty")
-    @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})", message = "Format password not right")
+    //@Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})", message = "Format password not right")
     protected String password;
 
 
