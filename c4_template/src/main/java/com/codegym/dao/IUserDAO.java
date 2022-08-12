@@ -8,6 +8,8 @@ import com.codegym.model.User;
 public interface IUserDAO {
 	public void insertUser(User user) throws SQLException;
 
+    public boolean insertUserSP(User user) throws SQLException;
+
     public User selectUser(int id);
 
     public List<User> selectAllUsers();

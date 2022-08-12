@@ -1,17 +1,13 @@
 package com.codegym.dao;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.codegym.model.User;
 
 public class UserDAO implements IUserDAO {
+    private static final String INSER_USER_SP_SQL = "call px_usermanager.sp_insert_user(?, ?, ?, ?, ?, ?, ?);";
     private String jdbcURL = "jdbc:mysql://localhost:3306/px_usermanager?useSSL=false";
     private String jdbcUsername = "root";
     private String jdbcPassword = "Quangdv180729!!";
@@ -101,6 +97,39 @@ public class UserDAO implements IUserDAO {
 			printSQLException(e);
 		}
 	}
+
+    @Override
+    public boolean insertUserSP(User user) throws SQLException {
+        Connection connection = null;
+        try{
+            connection = getConnection();
+            CallableStatement callableStatement = connection.prepareCall(INSER_USER_SP_SQL);
+            //"{ call px_usermanager.sp_insert_user(?, ?, ?, ?, ?, ?, ?);}";
+            callableStatement.setString(1, user.getName());
+            callableStatement.setString(2, user.getEmail());
+            callableStatement.setInt(3, user.getIdcountry());
+            callableStatement.setString(4, user.getPassword());
+            callableStatement.setString(5, null);
+
+            callableStatement.registerOutParameter(6, Types.VARCHAR);
+            callableStatement.registerOutParameter(7, Types.BOOLEAN);
+
+            System.out.println(this.getClass() + " insertUserSP: " + callableStatement);
+            callableStatement.execute();
+            
+            String message = callableStatement.getString(6);
+            boolean check = callableStatement.getBoolean(7);
+            
+            
+            
+            return  check;
+        }catch (SQLException e){
+            printSQLException(e);
+        }finally {
+            connection.close();
+        }
+        return false;
+    }
 
     public User selectUser(int id) {
         User user = null;

@@ -16,6 +16,8 @@ import org.hibernate.validator.constraints.Length;
 public class User {
 	protected int id;
 
+
+
     @NotEmpty (message = "Name not empty")
     @Length(min = 3, max = 10 , message = "Lenght of Name form 3 - 10 character ")
     protected String name;
@@ -24,6 +26,8 @@ public class User {
     @Email(message = "Email format not right")
     protected String email;
     protected int idcountry;
+
+
 
     @NotEmpty(message = "Password not empty")
     //@Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})", message = "Format password not right")

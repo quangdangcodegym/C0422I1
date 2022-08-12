@@ -4,12 +4,12 @@ import com.codegym.dao.CountryDAO;
 import com.codegym.dao.ICountryDAO;
 import com.codegym.dao.IUserDAO;
 import com.codegym.dao.UserDAO;
-import com.codegym.model.MyError;
 import com.codegym.model.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +18,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +40,12 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+
+        Cookie[] cookies = req.getCookies();
+        for(Cookie cookie : cookies){
+            System.out.println("Key: " + cookie.getName() + " value: " + cookie.getValue());
+        }
 
         String action = req.getParameter("action");
         if(action==null){
@@ -70,6 +77,11 @@ public class UserServlet extends HttpServlet {
         List<User> users = iUserDAO.selectAllUsers();
 
         req.setAttribute("users", users);
+
+        Cookie vubede = new Cookie("vu", "bede");
+        vubede.setMaxAge(5);
+
+        resp.addCookie(vubede);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/user/list.jsp");
         requestDispatcher.forward(req, resp);
     }
@@ -85,22 +97,27 @@ public class UserServlet extends HttpServlet {
         if(action==null){
             action ="";
         }
-        switch (action){
-            case "create":
-                insertUser(req, resp);
-                break;
+        try{
+            switch (action){
+                case "create":
+                    insertUser(req, resp);
+                    break;
 //            case "edit":
 //                break;
 //            case "sales":
 //                showSalesPage(req, resp);
 //                break;
-            default:
-                showListUser(req, resp);
+                default:
+                    showListUser(req, resp);
 
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
         }
+
     }
 
-    private void insertUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void insertUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
@@ -126,6 +143,8 @@ public class UserServlet extends HttpServlet {
         }else{
 
             req.setAttribute("success", "Insert success xxx");
+
+            iUserDAO.insertUserSP(user);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/user/create.jsp");
             requestDispatcher.forward(req, resp);
         }
