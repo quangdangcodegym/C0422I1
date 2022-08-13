@@ -12,17 +12,15 @@ import java.io.IOException;
 public class ResourceFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("ResourceFilter ...................");
+
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-
 
         ServletContext servletContext = request.getServletContext();
 
 
         String servletPath = req.getServletPath();
         String pathInfo = req.getPathInfo();
-
         String urlPattern = null;
         if (pathInfo != null) {
             urlPattern = servletPath + "/*";
@@ -30,9 +28,13 @@ public class ResourceFilter implements Filter {
         urlPattern = servletPath;
         boolean has = SecurityUtils.hasUrlPattern(servletContext, urlPattern);
 
-
+        if(has){
+            // If request does't resource (css, js) then add utf-8
+            req.setCharacterEncoding("UTF-8");
+            res.setCharacterEncoding("UTF-8");
+        }
         req.getSession().setAttribute("checkResource", has);
-
         chain.doFilter(req, res);
+        return;
     }
 }

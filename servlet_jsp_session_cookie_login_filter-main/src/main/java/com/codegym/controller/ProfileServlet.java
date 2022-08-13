@@ -16,10 +16,7 @@ public class ProfileServlet extends HttpServlet {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/admin/user/profile.jsp");
         requestDispatcher.forward(req, resp);
 
-
-
     }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     }

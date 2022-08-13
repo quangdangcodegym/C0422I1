@@ -25,10 +25,10 @@ public class UserDAO {
     public static List<String> getUserRoles(String username){
         List<String> roles = new ArrayList<>();
         if(username.equals("admin")){
-            roles.add("MANAGER");
+            roles.add("admin");
         }
         if (username.equals("quang")) {
-            roles.add("EMPLOYEE");
+            roles.add("user");
         }
         return roles;
     }

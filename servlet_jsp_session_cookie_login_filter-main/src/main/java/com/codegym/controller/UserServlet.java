@@ -12,13 +12,6 @@ import java.io.IOException;
 public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //super.doGet(req, resp);
-
-        /*System.out.println("getContextPath: " + req.getContextPath());
-        System.out.println("getServletPath: " + req.getServletPath());
-        System.out.println("getPathInfo: " + req.getPathInfo());
-        System.out.println("getQueryString: " + req.getQueryString());
-        System.out.println("getRequestURI: " + req.getRequestURI());*/
 
         String action = "";
         if(req.getParameter("action")!=null){
@@ -26,12 +19,21 @@ public class UserServlet extends HttpServlet {
         }
         switch (action){
             case "create":
-                showNewForm(req, resp);
+                if(req.isUserInRole("admin")){
+                    showNewForm(req, resp);
+                }else {
+                    showDeniedAccessPage(req, resp);
+                }
                 break;
             default:
                 listUser(req, resp);
                 break;
         }
+    }
+
+    private void showDeniedAccessPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/admin/user/401.jsp");
+        requestDispatcher.forward(req, resp);
     }
 
     private void listUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

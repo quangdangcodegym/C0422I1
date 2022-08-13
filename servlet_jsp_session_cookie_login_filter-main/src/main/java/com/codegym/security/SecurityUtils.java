@@ -2,6 +2,7 @@ package com.codegym.security;
 
 import com.codegym.utils.UserDAO;
 
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 import javax.servlet.http.HttpServletRequest;
@@ -12,27 +13,12 @@ import java.util.Map;
 import java.util.Set;
 
 public class SecurityUtils {
-    /**
-     *
-     * @param request: /
-     * @return
-     */
-    public static boolean isSecurityPage(HttpServletRequest request) {
-        String urlPattern = UrlPatternUtils.getUrlPattern(request);
 
-        Set<String> roles = SecurityConfig.getAllAppRoles();
-        for (String role : roles) {
-            List<String> urlPatterns = SecurityConfig.getUrlPatternsForRole(role);
-            if (urlPatterns != null && urlPatterns.contains(urlPattern)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public static boolean hasPermission(HttpServletRequest request) {
-        String urlPattern = UrlPatternUtils.getUrlPattern(request);
+        String urlPattern = UrlPatternUtils.getServletPattern(request);
 
+        System.out.println(" Request hasPermission: " + urlPattern);
         Set<String> allRoles = SecurityConfig.getAllAppRoles();
 
         for (String role : allRoles) {
@@ -76,4 +62,8 @@ public class SecurityUtils {
         System.out.println("username: " + username + " password: " + password);
         return UserDAO.checkUserExists(username, password);
     }
+
+
+
+
 }

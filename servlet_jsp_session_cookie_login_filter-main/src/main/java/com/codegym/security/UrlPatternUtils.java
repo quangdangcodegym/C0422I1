@@ -30,7 +30,7 @@ public class UrlPatternUtils {
     // ==> /spath/*
     // ==> *.ext
     // ==> /
-    public static String getUrlPattern(HttpServletRequest request) {
+    public static String getUrlPattern1(HttpServletRequest request) {
         ServletContext servletContext = request.getServletContext();
         String servletPath = request.getServletPath();
         String pathInfo = request.getPathInfo();
@@ -57,5 +57,10 @@ public class UrlPatternUtils {
             }
         }
         return "/";
+    }
+
+
+    public static String getServletPattern(HttpServletRequest request) {
+        return request.getServletPath();
     }
 }

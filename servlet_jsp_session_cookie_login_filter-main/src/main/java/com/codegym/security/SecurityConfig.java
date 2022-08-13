@@ -5,8 +5,8 @@ import java.util.*;
 public class SecurityConfig {
 
 
-    public static final String ROLE_MANAGER = "MANAGER";
-    public static final String ROLE_EMPLOYEE = "EMPLOYEE";
+    public static final String ROLE_ADMIN = "admin";
+    public static final String ROLE_USER = "user";
     public static final String ATT_NAME_USER_NAME = "username";
     public static final String ATT_NAME_USER_PASS = "password";
 
@@ -24,18 +24,16 @@ public class SecurityConfig {
         List<String> urlPatterns1 = new ArrayList<String>();
 
         urlPatterns1.add("/user");
-        urlPatterns1.add("/create");
 
-        mapConfig.put(ROLE_EMPLOYEE, urlPatterns1);
+        mapConfig.put(ROLE_USER, urlPatterns1);
 
         // Cấu hình cho vai trò "MANAGER".
         List<String> urlPatterns2 = new ArrayList<String>();
 
-        urlPatterns2.add("/create");
         urlPatterns2.add("/user");
         urlPatterns2.add("/admin");
 
-        mapConfig.put(ROLE_MANAGER, urlPatterns2);
+        mapConfig.put(ROLE_ADMIN, urlPatterns2);
     }
 
     public static Set<String> getAllAppRoles() {
@@ -49,7 +47,7 @@ public class SecurityConfig {
     public static void main(String[] args) {
         SecurityConfig securityConfig = new SecurityConfig();
 
-        securityConfig.getUrlPatternsForRole(ROLE_MANAGER).stream().forEach(t -> {
+        securityConfig.getUrlPatternsForRole(ROLE_ADMIN).stream().forEach(t -> {
             System.out.println(t);
 
         });
